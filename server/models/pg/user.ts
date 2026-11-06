@@ -44,10 +44,7 @@ const User = sequelize.define('User', {
   },
   password: {
     type: DataTypes.STRING,
-    allowNull: false,
-    validate: {
-      len: [6, 255]
-    }
+    allowNull: true,
   },
   role: {
     type: DataTypes.ENUM('FRESHER', 'PROFESSIONAL', 'HR'),

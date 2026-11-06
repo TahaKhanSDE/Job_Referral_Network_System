@@ -26,12 +26,17 @@ router.get('/me', protect, async (req: any, res: any) => {
 })
 
 // Google OAuth routes
+// Use only the first CLIENT_URL entry for redirects — the env var may be
+// comma-separated (multiple CORS origins) but a redirect must be a single URL.
+const primaryClientUrl = (): string =>
+  (process.env.CLIENT_URL || 'http://localhost:5173').split(',')[0].trim();
+
 router.get('/google',
   passport.authenticate('google', { scope: ['profile', 'email'] })
 )
 
 router.get('/google/callback',
-  passport.authenticate('google', { failureRedirect: `${process.env.CLIENT_URL}/login?error=oauth_failed` }),
+  passport.authenticate('google', { failureRedirect: `${primaryClientUrl()}/login?error=oauth_failed` }),
   (req: any, res: any) => {
     // Generate JWT after Google login
     const accessToken = jwt.sign(
@@ -54,7 +59,7 @@ router.get('/google/callback',
     })
 
     // Redirect to frontend with token
-    res.redirect(`${process.env.CLIENT_URL}/auth/callback?token=${accessToken}`)
+    res.redirect(`${primaryClientUrl()}/auth/callback?token=${accessToken}`)
   }
 )
 

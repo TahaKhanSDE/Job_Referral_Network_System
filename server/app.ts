@@ -22,14 +22,18 @@ const app = express()
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+
+// CORS must be registered before helmet so preflight OPTIONS requests
+// receive the Access-Control-Allow-* headers before any other middleware responds.
+app.use(cors({
+  origin: process.env.CLIENT_URL?.split(',') || ['http://localhost:5173'],
+  credentials: true,
+}));
+
 app.use(helmet())
 app.use(morgan('dev'))
 
 app.use(cookieParser());
-app.use(cors({
-  origin: process.env.CLIENT_URL?.split(',') || ['http://localhost:5173'],
-  credentials: true
-}));
 
 app.use(session({
   secret: process.env.SESSION_SECRET || process.env.JWT_SECRET || 'fallback-secret-change-in-prod',
