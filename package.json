@@ -1,9 +1,11 @@
 {
-  "dependencies": {
-    "@supabase/supabase-js": "^2.105.4",
-    "@vercel/analytics": "^2.0.1",
-    "cloudinary": "^2.10.0",
-    "cookie-parser": "^1.4.7",
-    "multer": "^2.1.1"
+  "scripts": {
+    "dev": "concurrently -n \"SERVER,CLIENT\" -c \"blue.bold,green.bold\" \"npm run dev:server\" \"npm run dev:client\"",
+    "dev:server": "npm run dev --prefix server",
+    "dev:client": "npm run dev --prefix client",
+    "build": "npm run build --prefix server && npm run build --prefix client"
+  },
+  "devDependencies": {
+    "concurrently": "^9.0.0"
   }
 }

@@ -25,6 +25,11 @@ router.get('/me', protect, async (req: any, res: any) => {
   }
 })
 
+// Token validation — used by OAuth callback flow to confirm a token is live
+router.get('/validate', protect, (req: any, res: any) => {
+  res.json({ success: true, valid: true })
+})
+
 // Google OAuth routes
 // Use only the first CLIENT_URL entry for redirects — the env var may be
 // comma-separated (multiple CORS origins) but a redirect must be a single URL.

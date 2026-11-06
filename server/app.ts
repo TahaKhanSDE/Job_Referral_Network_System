@@ -25,10 +25,33 @@ app.use(express.urlencoded({ extended: true }))
 
 // CORS must be registered before helmet so preflight OPTIONS requests
 // receive the Access-Control-Allow-* headers before any other middleware responds.
-app.use(cors({
-  origin: process.env.CLIENT_URL?.split(',') || ['http://localhost:5173'],
-  credentials: true,
-}));
+const DEV_ORIGINS = [
+  'http://localhost:5173',
+  'http://localhost:5174',
+  'http://127.0.0.1:5173',
+];
+const allowedOrigins: string[] = [
+  ...DEV_ORIGINS,
+  ...(process.env.CLIENT_URL
+    ? process.env.CLIENT_URL.split(',').map((u) => u.trim()).filter(Boolean)
+    : []),
+];
+// Deduplicate (CLIENT_URL might include localhost in staging)
+const uniqueOrigins = [...new Set(allowedOrigins)];
+
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      // Allow server-to-server / curl requests (no Origin header)
+      if (!origin) return callback(null, true);
+      if (uniqueOrigins.includes(origin)) return callback(null, true);
+      callback(new Error(`CORS: origin '${origin}' not allowed`));
+    },
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+  })
+);
 
 app.use(helmet())
 app.use(morgan('dev'))

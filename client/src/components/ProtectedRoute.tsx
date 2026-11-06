@@ -6,8 +6,8 @@ interface ProtectedRouteProps {
   children: ReactNode;
 }
 
-// Set to true to preview all pages without logging in
-const DEV_BYPASS_AUTH = true;
+// Set to true to preview all pages without logging in (DEVELOPMENT ONLY — must be false in production)
+const DEV_BYPASS_AUTH = false;
 
 const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   const isAuthenticated = useAuthStore(s => s.isAuthenticated);

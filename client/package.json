@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@vercel/analytics": "^2.0.1",
+    "@vercel/speed-insights": "^1.0.0",
     "axios": "^1.16.0",
     "motion": "^12.23.12",
     "react": "^19.1.1",

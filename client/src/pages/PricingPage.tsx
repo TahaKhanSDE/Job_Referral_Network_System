@@ -1,28 +1,13 @@
 import { useNavigate } from "react-router";
 import "@/styles/landing.css";
+import PublicNavbar from "../components/PublicNavbar";
 
 const PricingPage = () => {
     const navigate = useNavigate();
 
     return (
         <div style={{ minHeight: '100vh', background: '#fff', fontFamily: 'Inter, sans-serif' }}>
-            {/* Navbar */}
-            <nav style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 64px', height: 72, borderBottom: '1px solid #eee', background: '#fff', position: 'sticky', top: 0, zIndex: 100 }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer' }} onClick={() => navigate('/')}>
-                    <div style={{ width: 36, height: 36, borderRadius: 10, background: '#6c63ff', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-                            <div style={{ width: 14, height: 2, background: '#fff', borderRadius: 1 }}></div>
-                            <div style={{ width: 10, height: 2, background: '#fff', borderRadius: 1 }}></div>
-                            <div style={{ width: 7, height: 2, background: '#fff', borderRadius: 1 }}></div>
-                        </div>
-                    </div>
-                    <span style={{ fontSize: 22, fontWeight: 700, color: '#111' }}>RefNet</span>
-                </div>
-                <div style={{ display: 'flex', gap: 12 }}>
-                    <button onClick={() => navigate('/login')} style={{ padding: '8px 20px', borderRadius: 10, border: '1.5px solid #ddd', background: '#fff', fontWeight: 600, cursor: 'pointer', fontSize: 14 }}>Log In</button>
-                    <button onClick={() => navigate('/signup')} style={{ padding: '8px 20px', borderRadius: 10, border: 'none', background: '#6c63ff', color: '#fff', fontWeight: 600, cursor: 'pointer', fontSize: 14 }}>Get Referred Free</button>
-                </div>
-            </nav>
+            <PublicNavbar />
 
             {/* Hero */}
             <section style={{ textAlign: 'center', padding: '80px 64px 60px', background: 'linear-gradient(135deg, #eef1fe 0%, #f0fdf9 60%, #f3f4f8 100%)' }}>
@@ -39,9 +24,9 @@ const PricingPage = () => {
             <section style={{ padding: '64px 80px', background: '#fff' }}>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 32, maxWidth: 1100, margin: '0 auto' }}>
                     {/* Fresher Plan */}
-                    <div style={{ background: '#fafafa', border: '2px solid #eee', borderRadius: 20, padding: 32, display: 'flex', flexDirection: 'column', gap: 20 }}>
+                    <div style={{ background: '#fff', border: '1px solid rgba(226,232,240,0.8)', borderRadius: 12, padding: 32, display: 'flex', flexDirection: 'column', gap: 20, boxShadow: '0 1px 3px rgba(0,0,0,0.04)', transition: 'box-shadow 0.2s, transform 0.2s' }} onMouseEnter={e => { e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.08)'; e.currentTarget.style.transform = 'translateY(-2px)'; }} onMouseLeave={e => { e.currentTarget.style.boxShadow = '0 1px 3px rgba(0,0,0,0.04)'; e.currentTarget.style.transform = 'translateY(0)'; }}>
                         <div>
-                            <p style={{ fontSize: 14, fontWeight: 600, color: '#6c63ff', textTransform: 'uppercase', letterSpacing: '0.5px', margin: '0 0 8px' }}>For Freshers</p>
+                            <span style={{ display: 'inline-block', background: '#eff6ff', color: '#1d4ed8', border: '1px solid #bfdbfe', padding: '4px 12px', borderRadius: 9999, fontSize: 12, fontWeight: 500, marginBottom: 12 }}>For Freshers</span>
                             <h3 style={{ fontSize: 32, fontWeight: 800, color: '#111', margin: '0 0 8px' }}>₹0<span style={{ fontSize: 16, fontWeight: 500, color: '#888' }}>/forever</span></h3>
                             <p style={{ fontSize: 13, color: '#666', margin: 0 }}>100% free. No hidden charges.</p>
                         </div>
@@ -68,9 +53,9 @@ const PricingPage = () => {
                     </div>
 
                     {/* Professional Plan */}
-                    <div style={{ background: '#fafafa', border: '2px solid #eee', borderRadius: 20, padding: 32, display: 'flex', flexDirection: 'column', gap: 20 }}>
+                    <div style={{ background: '#fff', border: '1px solid rgba(226,232,240,0.8)', borderRadius: 12, padding: 32, display: 'flex', flexDirection: 'column', gap: 20, boxShadow: '0 1px 3px rgba(0,0,0,0.04)', transition: 'box-shadow 0.2s, transform 0.2s' }} onMouseEnter={e => { e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.08)'; e.currentTarget.style.transform = 'translateY(-2px)'; }} onMouseLeave={e => { e.currentTarget.style.boxShadow = '0 1px 3px rgba(0,0,0,0.04)'; e.currentTarget.style.transform = 'translateY(0)'; }}>
                         <div>
-                            <p style={{ fontSize: 14, fontWeight: 600, color: '#6c63ff', textTransform: 'uppercase', letterSpacing: '0.5px', margin: '0 0 8px' }}>For Professionals</p>
+                            <span style={{ display: 'inline-block', background: '#eff6ff', color: '#1d4ed8', border: '1px solid #bfdbfe', padding: '4px 12px', borderRadius: 9999, fontSize: 12, fontWeight: 500, marginBottom: 12 }}>For Professionals</span>
                             <h3 style={{ fontSize: 32, fontWeight: 800, color: '#111', margin: '0 0 8px' }}>₹0<span style={{ fontSize: 16, fontWeight: 500, color: '#888' }}>/forever</span></h3>
                             <p style={{ fontSize: 13, color: '#666', margin: 0 }}>Give back to the community.</p>
                         </div>
@@ -97,14 +82,14 @@ const PricingPage = () => {
                     </div>
 
                     {/* Enterprise Plan */}
-                    <div style={{ background: 'linear-gradient(135deg, #6c63ff 0%, #4f46e5 100%)', border: '2px solid #6c63ff', borderRadius: 20, padding: 32, display: 'flex', flexDirection: 'column', gap: 20, position: 'relative' }}>
+                    <div style={{ background: 'linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)', border: '2px solid #2563eb', borderRadius: 12, padding: 32, display: 'flex', flexDirection: 'column', gap: 20, position: 'relative', boxShadow: '0 4px 24px rgba(37,99,235,0.25)', transition: 'box-shadow 0.2s, transform 0.2s' }} onMouseEnter={e => { e.currentTarget.style.boxShadow = '0 8px 32px rgba(37,99,235,0.35)'; e.currentTarget.style.transform = 'translateY(-2px)'; }} onMouseLeave={e => { e.currentTarget.style.boxShadow = '0 4px 24px rgba(37,99,235,0.25)'; e.currentTarget.style.transform = 'translateY(0)'; }}>
                         <div style={{ position: 'absolute', top: -12, right: 24, background: '#fbbf24', color: '#78350f', fontSize: 11, fontWeight: 700, padding: '4px 12px', borderRadius: 12, textTransform: 'uppercase', letterSpacing: '0.5px' }}>Popular</div>
                         <div>
-                            <p style={{ fontSize: 14, fontWeight: 600, color: 'rgba(255,255,255,0.9)', textTransform: 'uppercase', letterSpacing: '0.5px', margin: '0 0 8px' }}>For Companies</p>
+                            <span style={{ display: 'inline-block', background: 'rgba(255,255,255,0.18)', color: '#fff', border: '1px solid rgba(255,255,255,0.3)', padding: '4px 12px', borderRadius: 9999, fontSize: 12, fontWeight: 500, marginBottom: 12 }}>For Companies</span>
                             <h3 style={{ fontSize: 32, fontWeight: 800, color: '#fff', margin: '0 0 8px' }}>Custom<span style={{ fontSize: 16, fontWeight: 500, color: 'rgba(255,255,255,0.7)' }}></span></h3>
                             <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.8)', margin: 0 }}>Pay only for successful hires.</p>
                         </div>
-                        <button onClick={() => navigate('/contact')} style={{ padding: '12px', borderRadius: 10, border: 'none', background: '#fff', color: '#6c63ff', fontWeight: 700, fontSize: 15, cursor: 'pointer', fontFamily: 'inherit' }}>
+                        <button onClick={() => navigate('/contact')} style={{ padding: '12px', borderRadius: 10, border: 'none', background: '#fff', color: '#2563eb', fontWeight: 700, fontSize: 15, cursor: 'pointer', fontFamily: 'inherit' }}>
                             Contact Sales
                         </button>
                         <div style={{ borderTop: '1px solid rgba(255,255,255,0.2)', paddingTop: 20 }}>
@@ -152,7 +137,7 @@ const PricingPage = () => {
                 <h2 style={{ fontSize: 32, fontWeight: 700, color: '#111', marginBottom: 16 }}>Ready to get started?</h2>
                 <p style={{ fontSize: 16, color: '#666', marginBottom: 32 }}>Join thousands of freshers landing their dream jobs through RefNet.</p>
                 <div style={{ display: 'flex', gap: 12, justifyContent: 'center' }}>
-                    <button onClick={() => navigate('/signup')} style={{ padding: '13px 28px', borderRadius: 10, border: 'none', background: '#6c63ff', color: '#fff', fontWeight: 700, fontSize: 15, cursor: 'pointer' }}>Sign Up Free</button>
+                    <button onClick={() => navigate('/signup')} style={{ padding: '13px 28px', borderRadius: 10, border: 'none', background: '#2563eb', color: '#fff', fontWeight: 700, fontSize: 15, cursor: 'pointer' }}>Sign Up Free</button>
                     <button onClick={() => navigate('/contact')} style={{ padding: '13px 28px', borderRadius: 10, border: '1.5px solid #ddd', background: '#fff', fontWeight: 600, fontSize: 15, cursor: 'pointer' }}>Contact Sales</button>
                 </div>
             </section>

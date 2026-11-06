@@ -1,6 +1,7 @@
 // Layout Components
 export { default as Layout } from './Layout';
 export { default as Navigation } from './Navigation';
+export { default as PublicNavbar } from './PublicNavbar';
 export { default as ProtectedRoute } from './ProtectedRoute';
 
 // UI Components

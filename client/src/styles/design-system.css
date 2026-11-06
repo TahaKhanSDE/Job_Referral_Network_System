@@ -4,26 +4,26 @@
    ═══════════════════════════════════════════════════════════ */
 
 :root {
-  --navy:        #1e2a45;
-  --navy-dark:   #172035;
-  --navy-hover:  #253352;
-  --accent:      #4f6ef7;
-  --accent-dark: #3d5ce0;
-  --accent-bg:   rgba(79,110,247,0.12);
-  --bg-page:     #f0f2f8;
+  --navy:        #0f172a;
+  --navy-dark:   #0a1020;
+  --navy-hover:  #1e293b;
+  --accent:      #2563eb;
+  --accent-dark: #1d4ed8;
+  --accent-bg:   rgba(37,99,235,0.10);
+  --bg-page:     #f8fafc;
   --bg-white:    #ffffff;
   --bg-card:     #ffffff;
-  --border:      #e8eaf0;
-  --text-primary:#111827;
-  --text-secondary:#6b7280;
-  --text-muted:  #9ca3af;
+  --border:      #e2e8f0;
+  --text-primary:#0f172a;
+  --text-secondary:#64748b;
+  --text-muted:  #94a3b8;
   --green:       #10b981;
   --green-bg:    #d1fae5;
   --orange:      #f59e0b;
   --orange-bg:   #fef3c7;
   --red:         #ef4444;
   --red-bg:      #fee2e2;
-  --blue-bg:     #eff2ff;
+  --blue-bg:     #eff6ff;
   --font:        'Inter', -apple-system, sans-serif;
 }
 

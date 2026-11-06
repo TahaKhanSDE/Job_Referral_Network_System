@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import { SpeedInsights } from '@vercel/speed-insights/react';
 import { RouterView } from './router';
 import { useAuthStore } from './store/useAuthStore';
 import { Analytics } from '@vercel/analytics/react';

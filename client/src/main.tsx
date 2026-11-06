@@ -1,5 +1,5 @@
 import './assets/styles/variables.css'
-import './utils/variables.js'
+import './utils/variables'
 import './assets/styles/global.css'
 import { createRoot } from 'react-dom/client'
 import './index.css'

@@ -11,22 +11,26 @@ jobs:
   deploy-frontend:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9
+      - uses: actions/checkout@v4
       - name: Deploy to Vercel
-        uses: amondnet/vercel-action@3f92e69c8521ec0ee22fedaa69c4e5bc48d72fec
+        if: ${{ env.VERCEL_TOKEN != '' }}
+        uses: amondnet/vercel-action@v25
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
           working-directory: ./client
           vercel-args: '--prod'
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
 
   deploy-backend:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - name: Deploy to Render
+        if: ${{ env.DEPLOY_URL != '' }}
         env:
-          deploy_url: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
+          DEPLOY_URL: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
         run: |
-          curl -X POST "$deploy_url"
+          curl -f -X POST "$DEPLOY_URL"

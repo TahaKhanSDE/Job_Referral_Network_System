@@ -45,7 +45,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     try {
       const { user, token } = await authService.signup({ 
         name, email, password, 
-        role: (role ? role.split(' ')[0].toUpperCase() : 'FRESHER') as 'fresher' | 'professional' // Casting for TS, server will handle it
+        role: role ? role.split(' ')[0].toUpperCase() : 'FRESHER',
       });
       localStorage.setItem('authToken', token);
       set({ user, token, isAuthenticated: true, isLoading: false });
