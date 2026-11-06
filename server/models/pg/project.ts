@@ -82,6 +82,7 @@ const Project = sequelize.define('Project', {
 });
 
 (Project as any).associate = (models: any) => {
+  if ((Project as any).associations?.user) return;
   Project.belongsTo(models.User, {
     foreignKey: 'userId',
     as: 'user',

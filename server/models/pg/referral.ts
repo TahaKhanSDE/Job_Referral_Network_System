@@ -163,8 +163,10 @@ const Referral = sequelize.define('Referral', {
   ]
 });
 
-// Define associations
+// Define associations — guarded against double-registration
 (Referral as any).associate = (models: any) => {
+  if ((Referral as any).associations?.job) return;
+
   // Referral belongs to a job
   Referral.belongsTo(models.Job, {
     foreignKey: 'jobId',

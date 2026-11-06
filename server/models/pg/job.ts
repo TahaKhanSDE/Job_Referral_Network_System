@@ -160,8 +160,10 @@ const Job = sequelize.define('Job', {
   ]
 });
 
-// Define associations
+// Define associations — guarded against double-registration
 (Job as any).associate = (models: any) => {
+  if ((Job as any).associations?.creator) return;
+
   // Job belongs to the HR user who created it
   Job.belongsTo(models.User, {
     foreignKey: 'createdBy',

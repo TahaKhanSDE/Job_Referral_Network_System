@@ -150,8 +150,11 @@ const User = sequelize.define('User', {
   ]
 });
 
-// Define associations
+// Define associations — guarded against double-registration (safe to call multiple times)
 (User as any).associate = (models: any) => {
+  // Guard: skip if already associated (prevents duplicate alias error on retry)
+  if ((User as any).associations?.createdJobs) return;
+
   // HR users can create jobs
   User.hasMany(models.Job, {
     foreignKey: 'createdBy',

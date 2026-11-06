@@ -12,35 +12,57 @@ if (!pgUri) {
 
 console.log('Connecting to PostgreSQL:', pgUri.replace(/:([^:@]+)@/, ':***@'));
 
+// Detect Supabase transaction pooler (port 6543) or session pooler (port 5432 on
+// *.pooler.supabase.com). Both require SSL with rejectUnauthorized: false because
+// Supabase uses a self-signed cert on the pooler edge.
+const isSupabasePooler =
+  pgUri.includes('.pooler.supabase.com') ||
+  pgUri.includes(':6543/');
+
 const sequelize = new Sequelize(pgUri, {
   dialect: 'postgres',
   logging: false,
   pool: {
     max: 20,
-    min: 5,
+    min: 2,          // Keep at least 2 warm connections; 5 can exhaust pooler limits
     acquire: 30000,
     idle: 10000,
   },
+  ...(isSupabasePooler || process.env.NODE_ENV === 'production'
+    ? {
+        dialectOptions: {
+          ssl: {
+            require: true,
+            rejectUnauthorized: false, // Supabase / managed PG uses self-signed certs
+          },
+        },
+      }
+    : {}),
 });
 
 const connectPostgres = async () => {
+  // ── Register associations exactly once, outside the retry loop ──────────
+  // Associations are registered on the Sequelize model singleton. If we
+  // re-run .associate() on every retry attempt, Sequelize throws:
+  //   "You have used the alias X in two separate associations."
+  // Importing here (before authenticate) is safe — the models are already
+  // defined at module-load time; we only import their references.
+  const User       = (await import('../models/pg/user')).default;
+  const Job        = (await import('../models/pg/job')).default;
+  const Referral   = (await import('../models/pg/referral')).default;
+  const Experience = (await import('../models/pg/experience')).default;
+  const Project    = (await import('../models/pg/project')).default;
+
+  (User as any).associate({ Job, Referral, Experience, Project });
+  (Job as any).associate({ User, Referral });
+  (Referral as any).associate({ Job, User });
+  (Experience as any).associate({ User });
+  (Project as any).associate({ User });
+  // ────────────────────────────────────────────────────────────────────────
+
   let retries = 10;
   while (retries) {
     try {
-      // Initialize model associations BEFORE authenticate/sync
-      const User       = (await import('../models/pg/user')).default;
-      const Job        = (await import('../models/pg/job')).default;
-      const Referral   = (await import('../models/pg/referral')).default;
-      const Experience = (await import('../models/pg/experience')).default;
-      const Project    = (await import('../models/pg/project')).default;
-
-      // Set up associations
-      (User as any).associate({ Job, Referral, Experience, Project });
-      (Job as any).associate({ User, Referral });
-      (Referral as any).associate({ Job, User });
-      (Experience as any).associate({ User });
-      (Project as any).associate({ User });
-
       await sequelize.authenticate();
 
       // SAFE: Only create tables if they don't exist, never auto-alter schema.
@@ -58,8 +80,13 @@ const connectPostgres = async () => {
         console.error('\n💡 Troubleshooting Tips:');
         console.error('1. Ensure PostgreSQL is running.');
         const host = pgUri.split('@')[1]?.split('/')[0] ?? 'unknown host';
-        console.error(`2. Check if it\'s listening on ${host}`);
+        console.error(`2. Check if it's listening on ${host}`);
         console.error('3. Verify credentials in your .env file.');
+        if (isSupabasePooler) {
+          console.error('4. Supabase pooler detected — confirm SSL is enabled and');
+          console.error('   the connection string uses port 6543 (transaction) or');
+          console.error('   port 5432 on *.pooler.supabase.com (session).');
+        }
         process.exit(1);
       }
       await new Promise((res) => setTimeout(res, 5000));

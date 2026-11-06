@@ -77,6 +77,7 @@ const Experience = sequelize.define('Experience', {
 });
 
 (Experience as any).associate = (models: any) => {
+  if ((Experience as any).associations?.user) return;
   Experience.belongsTo(models.User, {
     foreignKey: 'userId',
     as: 'user',
